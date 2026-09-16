@@ -1,0 +1,36 @@
+{
+  "generated_at": "2026-09-16T07:28:53Z",
+  "branch": "claude/uob-it-pmo-kanban-d660t0",
+  "commit": "13eb687",
+  "summary": {
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 1,
+    "info": 1
+  },
+  "findings": [
+    {
+      "id": "SEC-0001",
+      "severity": "low",
+      "verdict": "CONFIRMED",
+      "category": "privacy-exposure",
+      "file": "index.html",
+      "line": 918,
+      "summary": "A personal WhatsApp mobile number is hardcoded in client-side source and permanently published on a public GitHub Pages site and in git history.",
+      "failure_scenario": "Any visitor, bot, or scraper who views the page source or the deployed site can read WHATSAPP_NUMBER (\"REDACTED\") from index.html and the rendered chat button/link. The page has no access control, and once a commit is pushed the number also remains recoverable from git history even if a later edit swaps it out, so it should be treated as permanently public.",
+      "recommendation": "Use a dedicated shared/team WhatsApp Business number for IT support instead of a personal mobile number, since anything committed to a public repository's source or history is effectively public forever."
+    },
+    {
+      "id": "SEC-0002",
+      "severity": "info",
+      "verdict": "PLAUSIBLE",
+      "category": "hardening",
+      "file": "index.html",
+      "line": 3,
+      "summary": "No Content-Security-Policy is set for the page.",
+      "failure_scenario": "If a future edit accidentally introduces an XSS gap (e.g., a raw innerHTML assignment with unescaped input, bypassing the existing escapeHtml() helper), there is currently no CSP to limit script execution as a defense-in-depth backstop.",
+      "recommendation": "Consider adding a restrictive <meta http-equiv=\"Content-Security-Policy\" content=\"default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src https://formsubmit.co\"> tag, since the page is fully self-contained and only needs to reach formsubmit.co over the network."
+    }
+  ]
+}
