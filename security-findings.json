@@ -14,12 +14,13 @@
       "id": "SEC-0001",
       "severity": "low",
       "verdict": "CONFIRMED",
+      "status": "resolved",
       "category": "privacy-exposure",
       "file": "index.html",
       "line": 918,
       "summary": "A personal WhatsApp mobile number is hardcoded in client-side source and permanently published on a public GitHub Pages site and in git history.",
-      "failure_scenario": "Any visitor, bot, or scraper who views the page source or the deployed site can read WHATSAPP_NUMBER (\"REDACTED\") from index.html and the rendered chat button/link. The page has no access control, and once a commit is pushed the number also remains recoverable from git history even if a later edit swaps it out, so it should be treated as permanently public.",
-      "recommendation": "Use a dedicated shared/team WhatsApp Business number for IT support instead of a personal mobile number, since anything committed to a public repository's source or history is effectively public forever."
+      "failure_scenario": "Any visitor, bot, or scraper who views the page source or the deployed site can read WHATSAPP_NUMBER (redacted) from index.html and the rendered chat button/link. The page has no access control, and once a commit is pushed the number also remains recoverable from git history even if a later edit swaps it out, so it should be treated as permanently public.",
+      "recommendation": "Use a dedicated shared/team WhatsApp Business number for IT support instead of a personal mobile number, since anything committed to a public repository's source or history is effectively public forever. Resolved: WHATSAPP_NUMBER cleared to a blank config placeholder and the value purged from git history via a full history rewrite."
     },
     {
       "id": "SEC-0002",
