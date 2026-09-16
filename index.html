@@ -914,10 +914,16 @@
   // ==========================================================================
   const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/YOUR_EMAIL@example.com";
 
-  // WhatsApp IT support contact — international format, digits only, no "+".
-  const WHATSAPP_NUMBER = "REDACTED";
+  // WhatsApp IT support contact — set this to your team's shared support
+  // number before deploying (international format, digits only, no "+").
+  // Left blank on purpose: do not commit a personal mobile number here,
+  // since anything in this file is publicly visible on the deployed page
+  // and permanently recoverable from git history.
+  const WHATSAPP_NUMBER = "";
   const WHATSAPP_MESSAGE = "Hi IT Support, I need help with:";
-  const WHATSAPP_LINK = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(WHATSAPP_MESSAGE);
+  const WHATSAPP_LINK = WHATSAPP_NUMBER
+    ? "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(WHATSAPP_MESSAGE)
+    : "";
 
   const STATUSES = ["Backlog", "In Progress", "Blocked", "Done"];
   const PRIORITIES = ["Critical", "High", "Medium", "Low"];
@@ -1483,6 +1489,13 @@
     const closeBtn = document.getElementById("closeWhatsappBtn");
     const startLink = document.getElementById("whatsappStartLink");
 
+    // No support number configured (see WHATSAPP_NUMBER above) — hide the
+    // widget entirely rather than show a button that leads nowhere.
+    if (!WHATSAPP_NUMBER) {
+      fab.style.display = "none";
+      return;
+    }
+
     startLink.setAttribute("href", WHATSAPP_LINK);
 
     function openPanel() {
@@ -1518,6 +1531,10 @@
   const WELCOME_DELAY_MS = 10000;
 
   function setupWelcomeModal() {
+    // No support number configured — this modal exists to route visitors to
+    // WhatsApp, so there is nothing useful to show until one is set.
+    if (!WHATSAPP_NUMBER) return;
+
     const overlay = document.getElementById("welcomeModalOverlay");
     const closeBtn = document.getElementById("closeWelcomeModalBtn");
     const dismissBtn = document.getElementById("dismissWelcomeModalBtn");
